@@ -1,0 +1,71 @@
+version: '3'
+
+services:
+
+  producer:
+    build:
+      context: .
+      dockerfile: producer/Dockerfile
+      args:
+        PROJECT: producer
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-1:9092
+      SPRING_PROFILES_ACTIVE: local
+    depends_on:
+      - kafka-3
+
+  kafka-1:
+    image: wurstmeister/kafka
+    container_name: kafka-static-membership-kafka-1
+    environment:
+      KAFKA_LISTENERS: INTERNAL://0.0.0.0:19091,EXTERNAL://0.0.0.0:9091
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-1:19091,EXTERNAL://localhost:9091
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: EXTERNAL:PLAINTEXT, INTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: true
+      KAFKA_BROKER_ID: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: ${REPLICATION_FACTOR:-3}
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    ports:
+      - 9091:9091
+    depends_on:
+      - zookeeper
+
+  kafka-2:
+    image: wurstmeister/kafka
+    container_name: kafka-static-membership-kafka-2
+    environment:
+      KAFKA_LISTENERS: INTERNAL://0.0.0.0:19092,EXTERNAL://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-2:19092,EXTERNAL://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: EXTERNAL:PLAINTEXT, INTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: true
+      KAFKA_BROKER_ID: 2
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: ${REPLICATION_FACTOR:-3}
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    ports:
+      - 9092:9092
+    depends_on:
+      - kafka-1
+
+  kafka-3:
+    image: wurstmeister/kafka
+    container_name: kafka-static-membership-kafka-3
+    environment:
+      KAFKA_LISTENERS: INTERNAL://0.0.0.0:19093,EXTERNAL://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-3:19093,EXTERNAL://localhost:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: EXTERNAL:PLAINTEXT, INTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: true
+      KAFKA_BROKER_ID: 3
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: ${REPLICATION_FACTOR:-3}
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    ports:
+      - 9093:9093
+    depends_on:
+      - kafka-2
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - 2181:2181
