@@ -1,4 +1,4 @@
-package org.appshapes.common.kafka
+package org.appshapes.common.kafka.producer
 
 import org.springframework.context.annotation.Bean
 import org.springframework.kafka.core.DefaultKafkaProducerFactory

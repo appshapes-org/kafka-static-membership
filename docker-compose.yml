@@ -2,6 +2,18 @@ version: '3'
 
 services:
 
+  consumer:
+    build:
+      context: .
+      dockerfile: consumer/Dockerfile
+      args:
+        PROJECT: consumer
+    environment:
+      SPRING_KAFKA_CONSUMER_BOOTSTRAP_SERVERS: kafka-1:19091
+      SPRING_PROFILES_ACTIVE: local
+    depends_on:
+      - kafka-3
+
   producer:
     build:
       context: .
@@ -9,7 +21,7 @@ services:
       args:
         PROJECT: producer
     environment:
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-1:9092
+      SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS: kafka-1:19091
       SPRING_PROFILES_ACTIVE: local
     depends_on:
       - kafka-3

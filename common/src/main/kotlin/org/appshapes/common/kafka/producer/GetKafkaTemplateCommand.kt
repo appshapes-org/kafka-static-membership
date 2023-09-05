@@ -1,4 +1,4 @@
-package org.appshapes.common.kafka
+package org.appshapes.common.kafka.producer
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean

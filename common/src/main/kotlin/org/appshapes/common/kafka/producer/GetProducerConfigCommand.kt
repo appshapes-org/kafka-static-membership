@@ -1,4 +1,4 @@
-package org.appshapes.common.kafka
+package org.appshapes.common.kafka.producer
 
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -13,7 +13,7 @@ class GetProducerConfigCommand(
     private val valueSerializer: String
 ) {
     @Bean
-    fun getProducerConfigMap(): Map<String, Any> {
+    fun getProducerConfig(): Map<String, Any> {
         return mapOf(
             ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers,
             ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to keySerializer,

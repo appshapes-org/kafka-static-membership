@@ -1,4 +1,4 @@
-package org.appshapes.kafkastaticmembership.producer
+package org.appshapes.kafkastaticmembership.consumer
 
 import org.appshapes.common.runtime.ApplicationBase
 import org.appshapes.common.testing.ExcludeFromGeneratedCoverage
@@ -10,13 +10,12 @@ import org.springframework.scheduling.annotation.EnableScheduling
 
 @ComponentScan(
     basePackages = [
-        "org.appshapes.common.kafka.producer",
-        "org.appshapes.common.web",
-        "org.appshapes.kafkastaticmembership.producer"]
+        "org.appshapes.common.kafka.consumer",
+        "org.appshapes.kafkastaticmembership.consumer"]
 )
 @ConfigurationPropertiesScan(
     basePackages = [
-        "org.appshapes.common.kafka.producer"]
+        "org.appshapes.common.kafka.consumer"]
 )
 @EnableScheduling
 @ExcludeFromGeneratedCoverage
