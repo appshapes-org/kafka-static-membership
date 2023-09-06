@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-static-membership-producer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-static-membership-producer
+  template:
+    metadata:
+      labels:
+        app: kafka-static-membership-producer
+    spec:
+      containers:
+        - name: kafka-static-membership-producer
+          image: kafka-static-membership-producer:latest
+          imagePullPolicy: Never
+          env:
+            - name: SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS
+              value: "host.docker.internal:9091"
+            - name: SPRING_PROFILES_ACTIVE
+              value: "local"

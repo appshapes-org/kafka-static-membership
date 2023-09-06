@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.random.Random
 
 @Component
 class GetWeatherForecastCommand(
@@ -23,7 +24,10 @@ class GetWeatherForecastCommand(
     }
 
     protected fun getWeatherForecast(): WeatherForecast {
-        return rest.getForObject(weatherForecastUrl, WeatherForecast::class.java)!!
+        val url = weatherForecastUrl
+            .replace("LATITUDE", "${Random.nextInt(-90, 91)}")
+            .replace("LONGITUDE", "${Random.nextInt(-180, 181)}")
+        return rest.getForObject(url, WeatherForecast::class.java)!!
     }
 
     protected fun transformWeatherForecast(forecast: WeatherForecast): WeatherForecastProto {

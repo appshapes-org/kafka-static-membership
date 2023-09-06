@@ -29,19 +29,29 @@ image-sh:
 	docker exec -it $(service) sh
 
 kafka-create-topic:
-	docker exec kafka-static-membership-kafka-1 /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka-1:9092 --create --replication-factor 1 --partitions $(partitions) --topic $(topic)
+	docker exec kafka-static-membership-kafka-1 /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka-1:9091 --create --replication-factor 1 --partitions $(partitions) --topic $(topic)
+
+kafka-describe-topic:
+	docker exec kafka-static-membership-kafka-1 /opt/kafka/bin/kafka-topics.sh --describe --bootstrap-server kafka-1:9091 --topic $(topic)
 
 kafka-list-topics:
-	docker exec kafka-static-membership-kafka-1 /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka-1:9092 --list
+	docker exec kafka-static-membership-kafka-1 /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka-1:9091 --list
 
 kafka-list-offsets:
-	docker exec kafka-static-membership-kafka-1 /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server kafka-1:9092 --group $(group) --describe
+	docker exec kafka-static-membership-kafka-1 /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server kafka-1:9091 --group $(group) --describe
 
 kafka-reset-offsets:
-	docker exec kafka-static-membership-kafka-1 /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server kafka-1:9092 --group $(group) --reset-offsets --to-earliest --all-topics --execute
+	docker exec kafka-static-membership-kafka-1 /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server kafka-1:9091 --group $(group) --reset-offsets --to-earliest --all-topics --execute
 
 kafka-delete-topic:
-	docker exec kafka-static-membership-kafka-1 /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka-1:9092 --delete --topic $(topic)
+	docker exec kafka-static-membership-kafka-1 /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka-1:9091 --delete --topic $(topic)
+
+kube-apply:
+	kubectl apply -f $(file)
+	kubectl get pods
+
+kube-delete:
+	kubectl delete -f $(file)
 
 stop:
 	docker compose stop $(service)

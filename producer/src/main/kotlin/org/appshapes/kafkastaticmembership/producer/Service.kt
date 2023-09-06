@@ -20,7 +20,7 @@ class Service(
     fun execute() {
         try {
             val forecast = retriever.execute()
-            producer.sendDefault("${forecast.latitude}-${forecast.longitude}", forecast.toByteArray())
+            producer.sendDefault("${forecast.latitude}, ${forecast.longitude}", forecast.toByteArray())
             logger.inf("Sent {}", forecast)
         } catch (e: Exception) {
             logger.err(e, "Error producing")
