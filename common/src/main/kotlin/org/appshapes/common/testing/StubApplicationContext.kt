@@ -16,6 +16,7 @@ import org.springframework.core.io.Resource
 import org.springframework.core.metrics.ApplicationStartup
 import java.util.*
 
+@ExcludeFromGeneratedCoverage
 class StubApplicationContext : ConfigurableApplicationContext {
     var closeCalled: Boolean = false
 

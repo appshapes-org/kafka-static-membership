@@ -1,7 +1,7 @@
 package org.appshapes.kafkastaticmembership.producer
 
+import org.appshapes.kafkastaticmembership.domain.GetWeatherForecastProtoCommand
 import org.appshapes.kafkastaticmembership.domain.WeatherForecast
-import org.appshapes.kafkastaticmembership.protos.WeatherForecastProtoOuterClass
 import org.appshapes.kafkastaticmembership.protos.WeatherForecastProtoOuterClass.WeatherForecastProto
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
@@ -31,17 +31,14 @@ class GetWeatherForecastCommand(
     }
 
     protected fun transformWeatherForecast(forecast: WeatherForecast): WeatherForecastProto {
-        return WeatherForecastProto.newBuilder()
-            .setLatitude(forecast.latitude)
-            .setLongitude(forecast.longitude)
-            .setTimezone(forecast.timezone)
-            .setCurrent(
-                WeatherForecastProtoOuterClass.WeatherMeasurementProto.newBuilder()
-                    .setTemperature(forecast.current.temperature)
-                    .setWindspeed(forecast.current.windspeed)
-                    .setTimestamp(getWeatherForecastDateTime(forecast).toEpochSecond())
-            )
-            .build()
+        return GetWeatherForecastProtoCommand().execute(
+            forecast.latitude,
+            forecast.longitude,
+            forecast.timezone,
+            forecast.current.temperature,
+            forecast.current.windspeed,
+            getWeatherForecastDateTime(forecast).toEpochSecond()
+        )
     }
 
     protected fun getWeatherForecastDateTime(forecast: WeatherForecast): ZonedDateTime {

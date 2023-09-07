@@ -17,9 +17,17 @@ class Service {
     fun execute(message: ByteArray) {
         try {
             val forecast = WeatherForecastProto.newBuilder().mergeFrom(message).build()
-            logger.inf("Received {}", forecast)
+            logInfo("Received {}", forecast)
         } catch (e: Exception) {
-            logger.err(e, "Error consuming")
+            logError(e, "Error consuming")
         }
+    }
+
+    protected fun logInfo(message: String, vararg values: Any) {
+        logger.inf(message, *values)
+    }
+
+    protected fun logError(error: Throwable, message: String, vararg values: Any) {
+        logger.err(error, message, *values)
     }
 }

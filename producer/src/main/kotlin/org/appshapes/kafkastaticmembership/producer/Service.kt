@@ -23,7 +23,11 @@ class Service(
             producer.sendDefault("${forecast.latitude}, ${forecast.longitude}", forecast.toByteArray())
             logger.inf("Sent {}", forecast)
         } catch (e: Exception) {
-            logger.err(e, "Error producing")
+            logError(e, "Error producing")
         }
+    }
+
+    protected fun logError(error: Throwable, message: String, vararg values: Any) {
+        logger.err(error, message, *values)
     }
 }
