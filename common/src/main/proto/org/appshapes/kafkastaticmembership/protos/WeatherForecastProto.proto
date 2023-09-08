@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package org.appshapes.kafkastaticmembership.protos;
+
+message WeatherForecastProto {
+  double latitude = 1;
+  double longitude = 2;
+  string timezone = 3;
+  WeatherMeasurementProto current = 4;
+}
+
+message WeatherMeasurementProto {
+  double temperature = 1;
+  double windspeed = 2;
+  int64 timestamp = 3;
+}

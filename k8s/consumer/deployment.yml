@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kafka-static-membership-consumer
+spec:
+  serviceName: kafka-static-membership-consumer
+  replicas: 10
+  selector:
+    matchLabels:
+      app: kafka-static-membership-consumer
+  template:
+    metadata:
+      labels:
+        app: kafka-static-membership-consumer
+    spec:
+      containers:
+        - name: kafka-static-membership-consumer
+          image: kafka-static-membership-consumer:latest
+          imagePullPolicy: Never
+          env:
+            - name: SPRING_KAFKA_CONSUMER_BOOTSTRAP_SERVERS
+              value: "host.docker.internal:9091"
+            - name: SPRING_PROFILES_ACTIVE
+              value: "local"
