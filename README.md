@@ -74,3 +74,7 @@ weather reports.
 
 - Pod names are of the form `kafka-static-membership-<replica index>` (e.g., `kafka-static-membership-9`)
 - No rebalancing in logs after pod restarts
+
+# Further Reading
+
+- Check out the blog post that accompanies this repository: https://www.appshapes.com/kafka-static-membership-rebalancing-and-kubernetes-stateful-set/
